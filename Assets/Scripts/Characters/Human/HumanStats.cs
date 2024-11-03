@@ -68,9 +68,9 @@ namespace Characters
             CurrentGas = MaxGas = ((float)Gas * 2f) - 35f;
         }
 
-        public void UseDashGas()
+        public void UseDashGas(float amount)
         {
-            UseGas(4f);
+            UseGas(amount);
         }
 
         public void UseFrameGas()

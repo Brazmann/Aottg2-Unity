@@ -382,12 +382,12 @@ namespace Characters
             ToggleSparks(false);
         }
 
-        public void Dash(float targetAngle)
+        public void Dash(float targetAngle, float force = 40f, float gasCost = 4f)
         {
             if (_dashTimeLeft <= 0f && Stats.CurrentGas > 0 && MountState == HumanMountState.None &&
                 State != HumanState.Grab && CarryState != HumanCarryState.Carry && _dashCooldownLeft <= 0f)
             {
-                Stats.UseDashGas();
+                Stats.UseDashGas(gasCost);
                 TargetAngle = targetAngle;
                 Vector3 direction = GetTargetDirection();
                 _originalDashSpeed = Cache.Rigidbody.velocity.magnitude;
@@ -408,18 +408,18 @@ namespace Characters
 
                 State = HumanState.AirDodge;
                 FalseAttack();
-                Cache.Rigidbody.AddForce(direction * 40f, ForceMode.VelocityChange);
+                Cache.Rigidbody.AddForce(direction * force, ForceMode.VelocityChange);
                 _dashCooldownLeft = 0.2f;
                 ((InGameMenu)UIManager.CurrentMenu).HUDBottomHandler.ShakeGas();
             }
         }
 
-        public void DashVertical(float targetAngle, Vector3 direction)
+        public void DashVertical(float targetAngle, Vector3 direction, float force = 40f, float gasCost = 4f)
         {
             if (_dashTimeLeft <= 0f && Stats.CurrentGas > 0 && MountState == HumanMountState.None &&
                 State != HumanState.Grab && CarryState != HumanCarryState.Carry && _dashCooldownLeft <= 0f)
             {
-                Stats.UseDashGas();
+                Stats.UseDashGas(gasCost);
                 TargetAngle = targetAngle;
                 _originalDashSpeed = Cache.Rigidbody.velocity.magnitude;
                 _targetRotation = Quaternion.LookRotation(direction);
@@ -430,7 +430,7 @@ namespace Characters
                 CrossFade(HumanAnimations.Dash, 0.1f, 0.1f);
                 State = HumanState.AirDodge;
                 FalseAttack();
-                Cache.Rigidbody.AddForce(direction * 40f, ForceMode.VelocityChange);
+                Cache.Rigidbody.AddForce(direction * force, ForceMode.VelocityChange);
                 _dashCooldownLeft = 0.2f;
                 ((InGameMenu)UIManager.CurrentMenu).HUDBottomHandler.ShakeGas();
             }
